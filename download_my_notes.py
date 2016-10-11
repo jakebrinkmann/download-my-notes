@@ -4,6 +4,29 @@ import imaplib
 import email
 from os import path, makedirs
 
+class MyNotes:
+    def __init__(self):
+        self.credentials = {'User': '', 'Pass': ''}
+        self.folder = '' # Inbox, Sent, etc.
+        self.query = '' # To email@site.com
+        self.dest = '.' # Local directory
+        self.emails = [] # {Subject, Date, Payload, ContentType, Saved}
+
+    def login(self, username, password):
+        """ Login to Gmail account """
+        raise NotImplemented()
+
+    def search(folder, query):
+        """ Load a folder and find Emails by Header """
+        raise NotImplemented()
+
+    def save(directory):
+        """ Output content from email into local files """
+        raise NotImplemented()
+
+    def archive(folder):
+        """ Move emails to a new location, or delete them """
+        raise NotImplemented()
 
 def get_first_text_block(email_message_instance):
     maintype = email_message_instance.get_content_maintype()
