@@ -28,7 +28,11 @@ The app is setup to be called from the commandline as:
 
 This default script is setup as such:
 
-    notes = MyNotes() # Initialize the notes mailbox
-    notes.login(username, password) # Login to user's Gmail account
-    notes.search(folder, search) # Find emails in a folder by search query
-    notes.save(directory) # Output the email plaintext payload into files
+```python
+from download_my_notes import MyNotes
+
+notes = MyNotes() # Initialize the notes mailbox
+notes.login(username, password) # Login to user's Gmail account
+notes.search(folder, search) # Find emails in a folder by search query
+notes.save(directory) # Output the email plaintext payload into files
+```
