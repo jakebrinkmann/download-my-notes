@@ -7,7 +7,8 @@ from os import path, makedirs
 class MyNotes:
     def __init__(self):
         self.mailbox = None # imaplib instance
-        self.credentials = {'User': '', 'Pass': ''}
+        self.username = ''
+        self.password = ''
         self.folder = '' # Inbox, Sent, etc.
         self.query = '' # To email@site.com
         self.dest = '.' # Local directory
