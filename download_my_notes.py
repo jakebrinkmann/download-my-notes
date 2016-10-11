@@ -2,6 +2,7 @@
 import sys
 import imaplib
 import email
+import dateutil.parser
 from os import path, makedirs
 
 class MyNotes:
@@ -38,25 +39,31 @@ class MyNotes:
             self.emails.append(self.parse_email(cid))
 
     def parse_email(self, email_id):
-        """ Extract {Subject, Date, Payload, Content} from email """
-        data = {}
+        """ Extract {Subject, Date, Content, Type} from email """
+        payload = {"ID": email_id}
         result, data = self.mailbox.fetch(email_id, "(RFC822)")
         raw_email = data[0][1]
 
         email_message = email.message_from_string(raw_email.decode('utf-8'))
-        data['Date'] = email_message['Date']
-        data['Subject'] = email_message['Subject']
-        data['Content'], data['Payload'] = get_first_text_block(email_message)
+        payload['Date'] = dateutil.parser.parse(email_message['Date'])
+        payload['Subject'] = email_message['Subject']
+        payload['Type'], payload['Content'] = get_first_text_block(email_message)
+        return payload
 
-    def save(directory):
+    def save(self, directory):
         """ Output content from email into local files """
         if not path.exists(directory):
             makedirs(directory)
 
-        filename = path.join(directory, 'enote_{d}.txt'.format(d="10102016"))
-        with open(filename, 'w+') as fid:
-            fid.write(payload)
-        print('Save: {}'.format(filename))
+        for payload in self.emails:
+            fpart = 'enote_{d}.{t}'.format(
+                            d=payload['Date'].strftime('%m%d%Y%H%M'),
+                            t='txt' if payload['Type'] == 'text' else 'html')
+            filename = path.join(directory, fpart)
+            print(filename)
+            with open(filename, 'w+') as fid:
+                fid.write(payload['Content'])
+            print('Save: {}'.format(filename))
 
     def archive(folder):
         """ Move emails to a new location, or delete them """
