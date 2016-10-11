@@ -16,20 +16,20 @@ class MyNotes:
     def login(self, username, password):
         """ Login to Gmail account """
         mail = imaplib.IMAP4_SSL('imap.gmail.com')
-        self.username = username if username
-        self.password = password if password
+        self.username = username
+        self.password = password
         stat, (msg,) = mail.login(self.username, self.password)
         print(msg.decode('utf-8'))
         self.mailbox = mail
 
     def search(self, folder, query):
         """ Load a folder and find Emails by Header """
-        self.folder = folder if folder
+        self.folder = folder
         stat, (msg,) = self.mailbox.select('"{}"'.format(self.folder))
         if stat != 'OK':
             raise RuntimeError(stat, msg.decode('utf-8'))
 
-        self.query = query if query
+        self.query = query
         result, (ids,) = self.mailbox.search(None, 'HEADER {0}'.format(self.query))
         id_list = ids.split() # ids is a space separated string
 
@@ -75,7 +75,7 @@ def get_first_text_block(email_message_instance):
 
 def main(username, password, folder, search, directory):
     notes = MyNotes()
-    notes.login(usernam, password)
+    notes.login(username, password)
     notes.search(folder, search)
     notes.save(directory)
 
