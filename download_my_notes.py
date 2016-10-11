@@ -7,7 +7,7 @@ def main(username, password, folder, search):
     stat, (msg,) = mail.login(username, password)
     print(msg.decode('utf-8'))
 
-    stat, (msg,) = mail.select(folder)
+    stat, (msg,) = mail.select('"{}"'.format(folder))
     msg = msg.decode('utf-8')
     if stat != 'OK':
         raise RuntimeError(stat, msg)
