@@ -1,0 +1,6 @@
+[Default]
+username = email@site.com
+password = SuperSecret8000!
+folder = inbox
+search = To notes@place.com
+directory = /path/2/notes
